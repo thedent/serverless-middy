@@ -1,11 +1,16 @@
-import type { APIGatewayProxyHandler } from 'aws-lambda';
+import type { APIGatewayProxyHandler, CreateTodoRequest } from '../types';
 import middy from '@middy/core';
 import jsonBodyParserMiddleware from '../middleware/jsonBodyParser';
 import zodSchemaValidator from '../middleware/zodSchemaValidator';
 import { createTodoRequestSchema } from '../schemas';
 
-const baseHandler: APIGatewayProxyHandler = async (event) => {
-  console.log(event.body);
+const baseHandler: APIGatewayProxyHandler<CreateTodoRequest> = async (
+  event,
+) => {
+  const { description } = event.body; // description is now a valid property
+
+  console.log({ description });
+
   return {
     statusCode: 200,
     body: 'success',
